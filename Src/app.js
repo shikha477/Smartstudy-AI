@@ -10,6 +10,9 @@ import errorHandler from './middleware/errorMiddleware.js';
 
 import chatRoutes from './routes/chatRoutes.js';
 
+import userRoutes from './routes/userRoutes.js';
+import paymentRoutes from "./routes/paymentRoutes.js";
+
 const app = express();
 //security headers
 app.use(helmet());
@@ -29,9 +32,12 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use("/api/health",healthRoutes);
-app.use(errorHandler);
+
 app.use("/api/notes", noteRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/payments",paymentRoutes);
+app.use(errorHandler);
 
 // app.get('/health',(req,res) =>{
 //     res.status(200).json({

@@ -1,6 +1,7 @@
 import Notes from "../models/Note.js";
 import askAI from "../services/chatService.js";
 import {successResponse} from "../utils/apiResponse.js";
+import updateGamification from "../services/gamifictionService.js";
 
 export const chatWithNote = async (req, res, next)=>{
     try {
@@ -15,6 +16,10 @@ export const chatWithNote = async (req, res, next)=>{
         }
         const answer = await askAI(note.rawtext, question);
         successResponse(res, {answer}, "AI response generated");
+
+        updateGamification(req.user,"chat");
+        await req.user.save();
+        
     } catch (error){
         next(error);
     }
